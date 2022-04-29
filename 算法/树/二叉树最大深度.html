@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const bt = {
+        val: 1,
+        left: {
+          val: 2,
+          left: {
+            val: 4,
+            left: null,
+            right: null,
+          },
+          right: {
+            val: 5,
+            left: null,
+            right: null,
+          },
+        },
+        right: {
+          val: 3,
+          left: {
+            val: 6,
+            left: null,
+            right: null,
+          },
+          right: {
+            val: 7,
+            left: null,
+            right: null,
+          },
+        },
+      };
+
+      //   深度优先遍历
+      var maxDepth = function (root) {
+        let res = 0;
+        const dfs = (n, l) => {
+          if (!n) return;
+          if (!n.left && !n.right) {
+            res = Math.max(res, l);
+          }
+          dfs(n.left, l + 1);
+          dfs(n.right, l + 1);
+        };
+        dfs(root, 1);
+        return res;
+      };
+      console.log(maxDepth(bt));
+    </script>
+  </body>
+</html>

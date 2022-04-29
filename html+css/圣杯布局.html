@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣杯布局</title>
+    <style>
+        #container {
+            position: relative;
+            padding: 0 150px 0 100px;
+        }
+
+        .center,
+        .left,
+        .right {
+            height: 50px;
+            float: left;
+        }
+
+        .center {
+            width: 100%;
+            background-color: red;
+        }
+
+        .left {
+            width: 100px;
+            margin-left: -100px;
+            position: absolute;
+            background-color: blue;
+        }
+
+        .right {
+            width: 150px;
+            margin-right: -150px;
+            background-color: green;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* #container {
+            padding-left: 200px;
+            padding-right: 150px;
+            overflow: auto;
+        }
+
+        #container div {
+            float: left;
+        }
+
+        .center {
+            width: 100%;
+            background-color: lightcoral;
+        }
+
+        .left {
+            width: 200px;
+            position: relative;
+            left: -200px;
+            margin-left: -100%;
+            background-color: lightcyan;
+        }
+
+        .right {
+            width: 150px;
+            margin-right: -150px;
+            background-color: lightgreen;
+        }
+
+        .clearfix:after {
+            content: "";
+            display: table;
+            clear: both;
+        } */
+    </style>
+</head>
+
+<body>
+    <div id="container" class="clearfix">
+        <div class="center">我是中间</div>
+        <div class="left">我是左边</div>
+        <div class="right">我是右边</div>
+    </div>
+</body>
+
+</html>

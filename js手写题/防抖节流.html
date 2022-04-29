@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1.防抖。连续执行一个函数时，只执行最后一次。
+        // function debounce(fn, delay = 100) {
+        //     let timer
+        //     return function () {
+        //         if (timer) {
+        //             clearTimeout(timer)
+        //         }
+        //         timer = setTimeout(() => {
+        //             fn.apply(this, arguments) // this指向调用debounce的对象
+        //         }, delay);
+        //     }
+        // }
+        // window.addEventListener(
+        //     "resize",
+        //     debounce((a) => {
+        //         console.log(a);
+        //         console.log(111);
+        //     }, 1000)
+        // );
+
+        // 2.节流，在函数执行后的一段时间内，无论怎么重复触发都不会再执行。
+        // 也就是一段时间内只能执行一次
+        function throttle(fn, delay) {
+            let lock = false
+            return () => {
+                if (lock) return
+                lock = true
+                timer = setTimeout(() => {
+                    fn()
+                    lock = false
+                }, delay);
+            }
+        }
+        window.addEventListener(
+            "resize",
+            throttle(() => {
+                console.log(111);
+            }, 100)
+        );
+    </script>
+</body>
+
+</html>

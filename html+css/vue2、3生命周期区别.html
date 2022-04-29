@@ -1,0 +1,88 @@
+<!-- vue2是用过Object.defineProperty实现数据响应式 -->
+<!-- 组件初始化时，对data中的item进行递归遍历，对item的每一个属性进行劫持，
+添加set,get方法。我们后来新加的newProperty属性并没有
+通过Object.defineProperty设置成响应式数据，修改后不会视图更新。 -->
+<!-- vue3是用过proxy实现数据响应式的，直接动态添加新属性仍可以实现数据响应式 -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue3</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="root">
+
+        <div>{{animal.dog}}</div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    animal: {}
+                }
+            },
+            created() {
+                console.log('created');
+                console.log(this.animal);
+                this.animal.dog = 1
+                console.log(this.animal);
+            },
+            mounted() {
+                console.log('mounted');
+                console.log(this.animal);
+                setTimeout(() => {
+
+                    this.animal.dog = 2
+                }, 2000);
+                console.log(this.animal);
+            },
+        })
+        app.mount('#root')
+    </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue 2</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{animal.dog}}</div>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    animal: {}
+                }
+            },
+            created() {
+                console.log('created');
+                console.log(this.animal);
+                this.animal.dog = 1
+                console.log(this.animal);
+            },
+            mounted() {
+                console.log('mounted');
+                console.log(this.animal);
+                // this.animal = Object.assign({}, this.animal, { dog: 2 })
+                this.animal.dog = 2
+                console.log(this.animal);
+            },
+        })
+    </script>
+</body>
+
+</html>

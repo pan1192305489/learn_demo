@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 栈
+      const isValid = function (s) {
+        if (s.length % 2 === 1) {
+          return false;
+        }
+        const stack = [];
+        for (let i in s) {
+          const c = s[i];
+          if (c === "(" || c === "{" || c === "[") {
+            stack.push(c);
+          } else {
+            const t = stack[stack.length - 1];
+            if (
+              (t === "(" && c === ")") ||
+              (t === "{" && c === "}") ||
+              (t === "[" && c === "]")
+            ) {
+              stack.pop();
+            } else {
+              return false;
+            }
+          }
+        }
+        if (!stack.length) {
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+      //   字典
+      const MapIsValid = function (s) {
+        if (s.length % 2 === 1) return false;
+        const map = new Map();
+        map.set("(", ")");
+        map.set("{", "}");
+        map.set("[", "]");
+        let stack = [];
+        for (let i = 0; i < s.length; i++) {
+          const c = s[i];
+          if (map.has(c)) {
+            stack.push(c);
+          } else {
+            const t = stack[stack.length - 1];
+            if (map.get(t) === c) {
+              stack.pop();
+            } else {
+              return false;
+            }
+          }
+        }
+        return stack.length === 0 ? true : false;
+      };
+
+      //   console.log(isValid("{(})"));
+      console.log(MapIsValid("{(})"));
+      //   console.log(isValid("{}()"));
+      console.log(MapIsValid("{}()"));
+    </script>
+  </body>
+</html>

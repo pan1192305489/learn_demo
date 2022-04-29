@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promise</title>
+    <script src="./MyPromise.js"></script>
+  </head>
+  <body>
+    <script>
+      // let p = new MyPromise((resolve, reject) => {
+      //   setTimeout(() => {
+      //     resolve("解决");
+      //     // reject("拒绝");
+      //     // console.log("pdy");
+      //   }, 1000);
+      // })
+      //   .then(
+      //     (value) => {
+      //       throw new Error("fail");
+      //       // console.log(value);
+      //       // return "pdyshuaib";
+      //       // return new MyPromise((resolve, reject) => {
+      //       //   resolve("123123");
+      //       // });
+      //     },
+      //     (reason) => {
+      //       console.log(reason);
+      //       return new MyPromise((resolve, reject) => {
+      //         reject("123123");
+      //       });
+      //     }
+      //   )
+      //   // .then()
+      //   .then(
+      //     (value2) => {
+      //       console.log("resolve:", value2);
+      //     },
+      //     (reason2) => {
+      //       return p;
+      //     }
+      //   );
+
+      let p1 = new MyPromise((resolve, reject) => {
+        resolve("resolved");
+      });
+      let p2 = new MyPromise((resolve, reject) => {
+        reject("rejected");
+      });
+      let p3 = new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+          resolve("timeout resolved");
+        }, 1000);
+      });
+      MyPromise.all([p3, p2, p1]).then((res) => {
+        console.log(res);
+      });
+      // Promise.all([p3, p2, p1]).then((res) => {
+      //   console.log(res);
+      // });
+      const a = { b: 1, c: 2 };
+      const b = [1, 2, 3];
+      console.log(Object.keys(a));
+
+      console.log(b.keys());
+    </script>
+  </body>
+</html>

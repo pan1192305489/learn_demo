@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const getJson = function (url) {
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("GET", url, false);
+          let head = ["Content-Type", "access-token", "version"];
+          let body = [
+            "application/json",
+            "f2ba677a6b6fe2d0b832f48bafa8dbef",
+            "v1.0",
+          ];
+          for (let i in head) {
+            xhr.setRequestHeader(head[i], body[i]);
+          }
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState !== 4) {
+              return;
+            }
+            if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+              resolve(xhr.responseText);
+            } else {
+              reject(new Error(xhr.responseText));
+            }
+          };
+          xhr.send();
+        });
+      };
+      const res = getJson(
+        "https://h5.mcake.com/api/5e90690f0e270d04?cityId=110"
+      ).then(
+        (res) => {
+          console.log("resolve:", res);
+        },
+        (err) => {
+          console.log("reject:", err);
+        }
+      );
+    </script>
+  </body>
+</html>

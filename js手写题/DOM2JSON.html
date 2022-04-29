@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="div" class="123" data-dad="212">
+      <span id="span">
+        <a></a>
+      </span>
+      <span>
+        <a></a>
+        <a></a>
+      </span>
+    </div>
+    <script>
+      const divEl = document.getElementById("div");
+      divEl.attributes;
+      const dom2Json = (el) => {
+        let obj = {};
+        obj.attrs = {};
+        obj.tag = el.tagName?.toLowerCase();
+        let attributes = el.attributes;
+        if (attributes) {
+          [...attributes].forEach((attr) => {
+            var { name, value } = attr;
+            obj.attrs[name] = value;
+          });
+        }
+
+        obj.children = [];
+        let nodeChildren = el.childNodes;
+        if (nodeChildren) {
+          [...nodeChildren].forEach((kid) => {
+            if (kid.nodeType !== 3 && kid.nodeValue !== "/n") {
+              obj.children.push(dom2Json(kid));
+            }
+          });
+        }
+
+        return obj;
+      };
+      console.log(dom2Json(divEl));
+
+      const aEls = document.querySelectorAll("a");
+      //   1.Array.from
+      //   const res = Array.from(aEls);
+      //   2. Array.prototype.slice.call()
+      //   const res = Array.prototype.slice.call(aEls);
+      // 3. ...
+      //   const res = [...aEls];
+      // 4. func
+      //   const res = [];
+      //   aEls.forEach((el) => {
+      //     res.push(el);
+      //   });
+      // 5. concat
+      //   const res = Array.prototype.concat.apply([], aEls);
+      // 6. apply
+      const res = Array.apply(null, aEls);
+      //   console.log(aEls, aEls instanceof Array);
+      //   console.log(res, res instanceof Array);
+    </script>
+  </body>
+</html>

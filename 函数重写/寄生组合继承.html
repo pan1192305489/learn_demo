@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=1,minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>title</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <script>
+        // 寄生组合继承
+        function myCreateObject(obj) {
+            function newFn() { }
+            newFn.prototype = obj
+            return new newFn()
+        }
+        function Parent(name) {
+            this.name = name
+            this.hobbies = ['sing', 'dance', 'rap']
+        }
+        function Child(name) {
+            //1. 只用call的话无法继承Paren原型上的属性和方法
+            Parent.call(this, name)
+            this.age = 18
+        }
+        /** 2.
+         * Object.create(obj),表示创建一个继承obj的对象
+         * 相当于创建一个中间跳板对象，用于解决引用类型问题
+        */
+        Child.prototype = Object.create(Parent.prototype)
+
+        // Child.prototype.constructor 应该是指向自身
+        // 而Object.create创建的对象并没有constructor,因此会通过原型链查找，
+        // 而该child.__proto__ === parent.prototype
+        // parent.prototype.constructor === parent本身
+        // 所以说我们需要重新给Child.prototype.constructor赋值一下，让其等于自身
+        Child.prototype.constructor = Child
+
+        const child1 = new Child('child1')
+        const child2 = new Child('child2')
+        console.log(child1);
+        console.log(child2);
+        child1.hobbies.push('dhahd')
+        console.log(child1);
+        console.log(child2);
+    </script>
+</body>
+
+</html>

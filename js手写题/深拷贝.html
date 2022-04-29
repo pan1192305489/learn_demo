@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=1,minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>深拷贝</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <script>
+        function deepClone(obj = {}, map = new WeakMap()) {
+            let res = {}
+            // 处理对象是一个数组时
+            if (obj instanceof Array) {
+                res = []
+            }
+            // 处理对象是一个基本类型值时
+            if (typeof obj !== 'object') {
+                return obj
+            }
+            // 防止循环引用
+            if (map.has(obj)) {
+                return map.get(obj)
+            }
+            map.set(obj, res)
+            for (let key in obj) {
+                res[key] = deepClone(obj[key], map)
+            }
+            return res
+        }
+        const obj = {
+            name: 'pdy',
+            age: 18,
+            hobits: [
+                {
+                    games: ["csgo", "lol"],
+                    foods: ['hot-pot', 'hanburger']
+                },
+                "study"
+            ]
+        }
+
+        obj.obj = obj
+        console.log(obj);
+        const cloneObj = deepClone(obj);
+        const obj1 = obj
+        console.log(cloneObj === obj);
+        console.log(obj1 === obj);
+        obj.age = 17
+        console.log(cloneObj);
+    </script>
+</body>
+
+</html>

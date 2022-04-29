@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 判断两个值是否相等，相对于===，来说就是多了个NaN和+0,-0的判断
+      //    === 中判断为 +0=-0，Object.is判断为+0 != -0
+      function myIs(left, right) {
+        if (left === right) {
+          // +0，-0判断处理,通过Infinity
+          // 1/+0 = +Infinity
+          // 1/-0 = -Infinity
+          // +Infinity != -Infinity
+          // left !== 0 用来排除 1/left为NaN的情况
+          return left !== 0 || 1 / left === 1 / right;
+        }
+        return left !== left && right !== right;
+      }
+      console.log(myIs(NaN, NaN));
+      console.log(myIs(+0, -0));
+      console.log(myIs(undefined, undefined));
+    </script>
+  </body>
+</html>

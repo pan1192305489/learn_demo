@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=1,minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数组扁平化</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <script>
+        // map方法实现
+        function flatter(arr) {
+            const res = []
+            arr.map((item) => {
+                // 如果当前元素是一个数组，则递归调用，并将处理后的返回值push到结果数组中
+                if (Array.isArray(item)) {
+                    const _res = flatter(item)
+                    res.push(..._res)
+                } else {
+                    // 如果是单个数值则直接push进去
+                    res.push(item)
+                }
+            })
+            // 如果不是数组则返回结果
+            return res
+        }
+
+        // reduce高阶函数实现
+        function flatter1(arr) {
+            if (!arr.length) return
+            return arr.reduce((pre, cur) => {
+                // 如果当前值是一个数组，则将其作为参数递归调用，并与前一次执行的
+                if (cur instanceof Array) {
+                    return [...pre, ...flatter1(cur)]
+                }
+                // 如果不是一个数组，则将当前值与前一次执行的结果数组合并
+                else return [...pre, cur]
+            }, [])
+        }
+
+        // 用Array.some()迭代实现
+        // some()方法是只要条件返回为true则立即停止对函数的遍历
+        // 因此，对数组内每个元素判断，只要还有数组，则对整个数组进行一次扩展运算
+        function flatter2(arr) {
+            if (!arr.length) return
+            while (arr.some(item => Object.prototype.toString.call(item) === '[object Array]')) {
+                arr = [].concat(...arr)
+            }
+            return arr
+        }
+        console.log(flatter2(
+            [
+                1,
+                2,
+                [
+                    1,
+                    [
+                        2,
+                        3,
+                        [
+                            4,
+                            5,
+                            [
+                                6
+                            ]]]]]));
+    </script>
+</body>
+
+</html>

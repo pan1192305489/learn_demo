@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=1,minimum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>setInterval与setTimeout相互实现</title>
+    <style></style>
+  </head>
+
+  <body>
+    <script>
+      // 1.用setTimeout实现setInterval
+      const myInterval = (fn, time) => {
+        // timer用于清除定时器
+        let timer = null;
+        const interval = () => {
+          timer = setTimeout(() => {
+            fn();
+            // 循环调用自身实现interval
+            interval();
+          }, time);
+        };
+        interval();
+        return {
+          clear: () => {
+            clearTimeout(timer);
+          },
+        };
+      };
+      const a = myInterval(() => {
+        console.log("interval");
+      }, 1000);
+      setTimeout(() => {
+        a.clear();
+      }, 10000);
+
+      // 2.用setInterval实现setTimeout
+      const myTimeout = (fn, time) => {
+        let timer = setInterval(() => {
+          clearInterval(timer);
+          fn();
+        }, time);
+      };
+      // const b = myTimeout(() => { console.log('setTimeout') }, 1000)
+    </script>
+  </body>
+</html>

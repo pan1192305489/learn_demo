@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=1,minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手写new</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <script>
+        // new Func()
+        // new其实做了四步
+        // 1.创建一个空对象
+        // 2.将这个对象的原型指向构造函数的prototype
+        // 3.改变this指向为空对象
+        // 4.如果返回值是引用值，则返回这个引用值，若是基本值则返回这个新建的对象
+
+        Function.prototype.new = function () {
+            let obj = {}
+            obj.__proto__ = this.prototype
+            const res = this.apply(obj, arguments)
+            return res instanceof Object ? res : obj
+        }
+        function Person(name, age) {
+            this.name = name
+            this.age = age
+            // 函数不写return 默认是返回undefined 也就是基本类型值
+            // return 'adad'
+        }
+        const obj = {}
+        obj.__proto__.say = function () {
+            console.log('hello');
+        }
+
+        // Person.prototype.say = function () {
+        //     console.log('hello');
+        // }
+        const person1 = Person.new('pdy', 18)
+        const person2 = new Person('sss', 11)
+        console.log(person1);
+        person1.say();
+        // person2.say();
+    </script>
+</body>
+
+</html>

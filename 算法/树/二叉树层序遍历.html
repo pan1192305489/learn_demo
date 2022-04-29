@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 就差不多广度优先遍历，但是在遍历时要记录节点的层级，用于添加到其层级的数组中
+      //  //   输出
+      //   [[3], [2, 3], [4, 5, 6, 7]];
+      const bt = {
+        val: 1,
+        left: {
+          val: 2,
+          left: {
+            val: 4,
+            left: null,
+            right: null,
+          },
+          right: {
+            val: 5,
+            left: null,
+            right: null,
+          },
+        },
+        right: {
+          val: 3,
+          left: {
+            val: 6,
+            left: null,
+            right: null,
+          },
+          right: {
+            val: 7,
+            left: null,
+            right: null,
+          },
+        },
+      };
+
+      //   const levelOrder = (root) => {
+      //     if (!root) return [];
+      //     let q = [[root, 0]];
+      //     const res = [];
+      //     while (q.length) {
+      //       let [n, level] = q.shift();
+      //       if (!res[level]) {
+      //         res.push([n.val]);
+      //       } else {
+      //         res[level].push(n.val);
+      //       }
+      //       if (n.left) q.push([n.left, level + 1]);
+      //       if (n.right) q.push([n.right, level + 1]);
+      //     }
+      //     return res;
+      //   };
+      //   console.log(levelOrder(bt));
+
+      const levelOrder = (root) => {
+        if (!root) return [];
+        let q = [root];
+        let res = [];
+        while (q.length) {
+          let len = q.length;
+          //   用于存放某一层级的value
+          res.push([]);
+          //   将所有的旧节点出队，保证下一循环时q里面都是同一层级的节点
+          while (len--) {
+            const n = q.shift();
+            // 将该层级的节点的值都加入到数组内
+            res[res.length - 1].push(n.val);
+            if (n.left) q.push(n.left);
+            if (n.right) q.push(n.right);
+          }
+        }
+        return res;
+      };
+      console.log(levelOrder(bt));
+    </script>
+  </body>
+</html>

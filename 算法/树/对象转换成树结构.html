@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=1,minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>title</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <script>
+        let arr = [
+            { id: 0, name: 'xxx', pid: null },
+            { id: 1, name: 'xxx', pid: 0 },
+            { id: 2, name: 'xxx', pid: 0 },
+            { id: 3, name: 'xxx', pid: 2 },
+        ]
+
+        let mp = new Map();
+
+        arr.forEach(item => mp.set(item.id, item));
+        console.log(arr);
+        let obj = [];
+        arr.forEach((item) => {
+            if (item.pid === null) {
+                obj.push(item);
+            } else {
+                let tmp = mp.get(item.pid);
+                tmp.children = tmp.children ? tmp.children : [];
+                tmp.children.push(item);
+            }
+        })
+        console.log(obj)
+    </script>
+</body>
+
+</html>

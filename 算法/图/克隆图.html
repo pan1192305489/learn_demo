@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Node(val, neighbors) {
+        this.val = val === undefined ? 0 : val;
+        this.neighbors = neighbors === undefined ? [] : neighbors;
+      }
+
+      //   深度优先
+      //   const cloneGraph = (node) => {
+      //     if (!node) return;
+      //     const visited = new Map();
+      //     const dfs = (n) => {
+      //       const copyNode = new Node(n.val);
+      //       visited
+      //         .set(
+      //           n,
+      //           copyNode
+      //         )(n.neighbors || [])
+      //         .forEach((ne) => {
+      //           if (!visited.has(ne)) {
+      //             dfs(ne);
+      //           }
+      //           copyNode.neighbors.push(visited.get(ne));
+      //         });
+      //     };
+      //     dfs(node);
+      //     return visited.get(node);
+      //   };
+
+      // 广度优先
+      const cloneGraph = (node) => {
+        if (!node) return;
+        const visited = new Map();
+        // 标记第一个节点被访问过
+        visited.set(q, new Node(node.val));
+        const q = [node];
+        while (q.length) {
+          const n = q.shift();
+          (n.neighbors || []).forEach((ne) => {
+            if (!visited.has(ne)) {
+              q.push(ne);
+              visited.set(ne, new Node(ne.val));
+            }
+            // 得到克隆节点
+            visited.get(n).neighbors.push(visited.get(ne));
+          });
+        }
+        return visited.get(node);
+      };
+
+      function fn() {
+        this.hap = "hap";
+      }
+      console.log(Function.prototype.__proto__ === Object.prototype);
+    </script>
+  </body>
+</html>

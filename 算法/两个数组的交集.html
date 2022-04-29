@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 集合
+      // 交集、无序、唯一
+      const nums1 = [1, 2, 2, 1];
+      const nums2 = [2, 2, 3];
+      const intersection = (nums1, nums2) => {
+        return [...new Set(nums1)].filter((num) => nums2.includes(num));
+      };
+      //   Map
+      const MapIntersection = (nums1, nums2) => {
+        const myMap = new Map();
+        nums1.forEach((num) => {
+          myMap.set(num, true);
+        });
+        let res = [];
+        nums2.forEach((num) => {
+          if (myMap.has(num)) {
+            res.push(num);
+            myMap.delete(num);
+          }
+        });
+        return res;
+      };
+      console.log(MapIntersection(nums1, nums2));
+    </script>
+  </body>
+</html>

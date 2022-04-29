@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=1,minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>call,apply,bind</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <script>
+        const obj1 = {
+            name: 'pdy'
+        }
+        const say = function (a, b, c) {
+            console.log(this);
+            console.log(a, b, c);
+            console.log(this.name + 'shuaib' + a + b + c)
+            return '1ss'
+        }
+        say.prototype.hello = function () {
+            console.log(this);
+            console.log('hello');
+        }
+
+
+        //1. call ,参数要一个一个地传，并且绑定this后就立马执行
+        Function.prototype.myCall = function (ctx, ...args) {
+            // this指向调用myCall的函数
+            // 让调用的函数成为目标指向ctx中的一个方法
+            // 这样的话原始函数的this就指向目标上下文了
+            // 然后在执行就可以了
+
+            // 问题一：没有传参数时，this指向window。
+            // 通过默认参数即可解决
+            ctx = ctx || window
+
+            // 问题二:如果ctx上已经有了fn方法或属性，将会重写该方法
+            // 通过Symbol，因为Symbol返回的值都是唯一的，专门作为对象属性的标识符
+            const fn = Symbol()
+            // ctx.fn = this
+            ctx[fn] = this
+
+            // 问题三：call可以传多个参数。
+            const result = ctx[fn](...args)
+            // 问题四：此时ctx上就莫名其妙多了个fn方法，因此要删除掉
+            delete ctx[fn]
+            return result
+        }
+        // say.myCall(obj1, "a", 'b', 'c')
+        // say.call(obj1, "a", 'b', 'c')
+
+        //2. apply,参数要是一个数组，其他和call一样
+        Function.prototype.myApply = function (ctx, args) {
+            args = args ? args : []
+            ctx = ctx || window
+            const fn = Symbol()
+            ctx[fn] = this
+            // 问题一：第二个参数必须是数组
+            const _args = [...[...arguments]]
+            if (_args.length > 2) {
+                throw Error('第二个参数只能是数组')
+            }
+            // 记得要返回值
+            const result = ctx[fn](...args)
+            delete ctx[fn]
+            return result
+        }
+        // const b = say.myApply(obj1, ['a', 'b', 'c'])
+        // const a = say.apply(obj1, ['a', 'b', 'c'])
+
+        //3.bind ,参数要一个一个地传，但是返回的是个函数，并不会立马执行
+        // 问题一:返回的是个可以继续传参的函数
+        // 柯里化实现
+        // 问题二:返回的函数可以通过new来调用，this不再指向绑定的obj，而是new的this指向
+        // 判断是否是new调用
+        // 需要借助apply来实现
+        Function.prototype.myBind = function (ctx, ...args) {
+            args = args ? args : []
+            const fn = this
+            return function newFn(...newFnArgs) {
+                // this instanceof newFn 用于判断是否是通过new调用绑定后的函数
+                // 也可以使用new.target
+                if (this instanceof newFn) {
+                    return new fn(...args, ...newFnArgs)
+                }
+                return fn.apply(ctx, [...args, ...newFnArgs])
+            }
+
+        }
+        const b = say.bind(obj1, 'a', 'b')
+        const a = say.myBind(obj1, 'a', 'b')
+        const _b = new b()
+        _b.hello()
+        const _a = new a()
+        _a.hello()
+    </script>
+</body>
+
+</html>

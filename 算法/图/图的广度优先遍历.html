@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 新建队列，把根节点入队
+      // 把队头出队并访问
+      // 把队头没访问过的相邻节点入队
+      const graph = {
+        0: [1, 2],
+        1: [2],
+        2: [0, 3],
+        3: [3],
+      };
+      const visited = new Set();
+      visited.add(2);
+      const q = [2];
+      while (q.length) {
+        const n = q.shift();
+        console.log(n);
+        graph[n].forEach((c) => {
+          if (!visited.has(c)) {
+            q.push(c);
+            visited.add(c);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

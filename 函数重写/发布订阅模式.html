@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,user-scalable=no,maximum-scale=1,minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>title</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <script>
+        class EventEmitter {
+            constructor() {
+                // 调度中心
+                this.eventList = new Map()
+            }
+            // 订阅
+            on(event, callback) {
+                // 如果调度中心没有订阅该evenet，就将这个event加入调度中心
+                if (!this.eventList.has(event)) {
+                    // 一个event可能有多个订阅者，每个订阅者的callback是不一样的
+                    const callbackList = new Map()
+                    this.eventList.set(event, callbackList.set(callback, callback))
+                } else {
+                    // 如果调度中心已经有了该envent，则直接讲订阅者的callback加入到该event中
+                    this.eventList.get(event).set(callback, callback)
+                    console.log(this.eventList.get(event))
+                }
+            }
+            //发布
+            emit(event, ...args) {
+                const that = this
+                this.eventList.get(event)?.forEach((fn) => {
+                    fn.apply(that, args)
+                })
+            }
+            //删除某一事件的某一个订阅者
+            off(event, callback) {
+                // 如果调度中心根本没有订阅过该事件，则直接return
+                if (!this.eventList.has(event)) return
+                this.eventList.get(event).delete(callback)
+            }
+            // 只执行一次某事件的订阅者
+            once(event, callback) {
+                function fn() {
+                    callback()
+                    this.off(event, fn)
+                }
+                this.on(event, fn)
+            }
+
+        }
+        const event = new EventEmitter()
+        const handle1 = (...args) => { console.log('user1订阅了:', ...args); }
+        const user1 = event.on('click', handle1)
+        const user2 = event.on('click', (...args) => { console.log('user2订阅了:', ...args); })
+        const user3 = event.on('mousemove', (...args) => { console.log('user3订阅了:', ...args); })
+        const emit1 = event.emit('click', 'click')
+        const emit2 = event.emit('mousemove', 'mousemove')
+        const off1 = event.off('click', handle1)
+        event.emit('click', 'click')
+
+        const once1 = event.once('onceClick', (...args) => { console.log('只能订阅一次', ...args); })
+        event.emit('onceClick', 886)
+        event.emit('onceClick', 886)
+    </script>
+</body>
+
+</html>

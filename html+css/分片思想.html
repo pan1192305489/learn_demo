@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="container">
+      <li></li>
+    </ul>
+    <script>
+      let ul = document.getElementById("container");
+      console.log(ul);
+      // 总共数据量
+      let total = 100000;
+      // 一次插入多少条
+      let once = 20;
+      // 总共页数
+      let page = total / once;
+      let index = 1;
+      function loop(curTotal, curIndex) {
+        if (curIndex <= 0) {
+          return false;
+        }
+        // 每页的条数
+        let pageCount = Math.min(curTotal, once);
+        window.requestAnimationFrame(() => {
+          for (let i = 0; i < pageCount; i++) {
+            let li = document.createElement("li");
+            li.innerText = curIndex + i + ":" + ~~(Math.random() * total);
+            ul.appendChild(li);
+          }
+          loop(curIndex - pageCount, curIndex + pageCount);
+        });
+      }
+      loop(total, index);
+    </script>
+  </body>
+</html>

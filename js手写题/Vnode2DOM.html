@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const vnode = {
+        tag: "DIV",
+        attrs: {
+          id: "app",
+        },
+        children: [
+          {
+            tag: "SPAN",
+            children: [{ tag: "A", children: [] }],
+          },
+          {
+            tag: "SPAN",
+            children: [
+              { tag: "A", children: [] },
+              { tag: "A", children: [] },
+            ],
+          },
+        ],
+      };
+      function convert(vnode) {
+        if (typeof vnode === "number") {
+          vnode = String(vnode);
+        }
+        if (typeof vnode === "string") {
+          return document.createTextNode(vnode);
+        }
+        const dom = document.createElement(vnode.tag);
+        if (vnode.attrs) {
+          Object.keys(vnode.attrs).forEach((key) => {
+            const value = vnode.attrs[key];
+            dom.setAttribute(key, value);
+          });
+        }
+        vnode.children.forEach((child) => dom.appendChild(convert(child)));
+        return dom;
+      }
+      console.log(convert(vnode));
+    </script>
+  </body>
+</html>

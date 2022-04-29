@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .normal {
+        width: 300px;
+        height: 300px;
+        position: relative;
+      }
+      .normal > img {
+        width: 100%;
+        height: 100%;
+      }
+      .lay {
+        position: sticky;
+        width: 150px;
+        height: 150px;
+        background: orange;
+        opacity: 0.5;
+        position: absolute;
+        left: 0;
+        top: 0;
+        cursor: move;
+        display: none;
+      }
+      .big {
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        left: 350px;
+        top: 0px;
+        overflow: hidden;
+        display: none;
+      }
+      .big > img {
+        width: 600px;
+        height: 600px;
+        position: absolute;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="magnifier"></section>
+
+    <script type="text/javascript">
+      let arr = "[1,[2,[3,[4]],5]]";
+      let deep = 1;
+      function flatter(arr, deep) {
+        const res = [];
+        let nowDeep = deep;
+        arr.map((item) => {
+          if (nowDeep <= 0) {
+            res.push(item);
+          }
+          // 如果当前元素是一个数组，则递归调用，并将处理后的返回值push到结果数组中
+          else if (Array.isArray(item)) {
+            const _res = flatter(item, deep - 1);
+            res.push(..._res);
+            nowDeep -= 1;
+            console.log(nowDeep);
+          } else {
+            // 如果是单个数值则直接push进去
+            res.push(item);
+          }
+        });
+        // 如果不是数组则返回结果
+        return res;
+      }
+      console.log(JSON.stringify(flatter(JSON.parse(arr), deep)));
+    </script>
+  </body>
+</html>

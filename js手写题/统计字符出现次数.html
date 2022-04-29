@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function test1() {
+            const str = 'ssstttyyyybbs'
+            // 获取字符串内每个字符出现的次数，返回一个对象形式
+            function getCount(str) {
+                let res = {}
+                for (let item of str) {
+                    if (res[item]) res[item]++
+                    if (!res[item]) {
+                        res[item] = 1
+                    }
+                }
+                return res
+            }
+            //最高频的是哪个字符，并且其次数是多少
+            function getMaxStr(obj) {
+                let maxStr = ''
+                let maxCount = 0
+                let res = {}
+                for (let str in obj) {
+                    if (maxCount < obj[str]) {
+                        maxCount = obj[str]
+                        maxStr = str
+                    }
+                }
+                res[maxStr] = maxCount
+                return res
+            }
+            const countObj = getCount(str)
+            const maxStr = getMaxStr(countObj)
+            console.log(maxStr);
+        }
+        function test2() {
+            // 1.如果 n 是3的倍数，输出“Fizz”； 
+            // 2.如果 n 是5的倍数，输出“Buzz”； 
+            // 3.如果 n 同时是3和5的倍数，输出“FizzBuzz”。
+            function test(num) {
+                for (let i = 1; i <= num; i++) {
+                    if (i % 3 === 0 && i % 5 === 0) { console.log('FizzBuzz'); }
+                    else if (i % 3 === 0) { console.log('Fizz'); }
+                    else if (i % 5 === 0) { console.log('Buzz'); }
+                    else {
+                        console.log(i);
+                    }
+                }
+            }
+            test(15)
+        }
+        test1()
+        test2()
+    </script>
+</body>
+
+</html>
